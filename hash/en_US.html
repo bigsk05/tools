@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en_US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compute Hash</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.ghink.net/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.ghink.net/image/avatar/Bigsk.png" type="image/png">
+    <script src="https://cdn.ghink.net/js/vue/2.6.14/vue.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="https://tools.ianxia.com"><b>Ian</b>Tools</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      Language
+		    </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="zh_CN.html"><b>简体中文</b></a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.ianxia.com">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://blog.ianxia.com">Blog (In Chinese)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="../en_US.html">Tools</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section>
+      <div class="jumbotron text-center mt-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>Compute Hash</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container" id="app">
+        <div class="row">
+          <div class="col-md-12">
+            <form role="form">
+              <div>
+                <label><b>Please enter the content:</b>&nbsp;</label>
+                <input type="text" class="form-control" v-model="input" placeholder="Please enter the content"><br>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row" style="word-break:break-all; word-wrap:break-all;">
+          <div class="col-md-12">
+            <div><b>Calculation results:</b></div>
+            <div><b>MD5 32 Uppercase: {{md5_32_u}}</b></div>
+            <div><b>MD5 32 Lowercase: {{md5_32_l}}</b></div>
+            <div><b>MD5 16 Uppercase: {{md5_16_u}}</b></div>
+            <div><b>MD5 16 Lowercase: {{md5_16_l}}</b></div>
+            <div><b>SHA1 Uppercase: {{sha1_u}}</b></div>
+            <div><b>SHA1 Lowercase: {{sha1_l}}</b></div>
+            <div><b>SHA3 Uppercase: {{sha3_u}}</b></div>
+            <div><b>SHA3 Lowercase: {{sha3_l}}</b></div>
+            <div><b>SHA224 Uppercase: {{sha224_u}}</b></div>
+            <div><b>SHA224 Lowercase: {{sha224_l}}</b></div>
+            <div><b>SHA256 Uppercase: {{sha256_u}}</b></div>
+            <div><b>SHA256 Lowercase: {{sha256_l}}</b></div>
+            <div><b>SHA384 Uppercase: {{sha384_u}}</b></div>
+            <div><b>SHA384 Lowercase: {{sha384_l}}</b></div>
+            <div><b>SHA512 Uppercase: {{sha512_u}}</b></div>
+            <div><b>SHA512 Lowercase: {{sha512_l}}</b></div>
+          </div>
+        </div>
+        <div class="text-center">
+          <hr>
+          <h5>Library used: <a href="https://github.com/brix/crypto-js">Crypto.js</a></h5>
+        </div>
+      </div>
+    </section>
+    <hr>
+    <script src="https://cdn.ghink.net/js/crypto/crypto-js.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          input: "Please enter the content"
+        },
+        computed: {
+            md5_32_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            md5_32_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input) : "Please enter the content!";
+            },
+            md5_16_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase().slice(8, 24) : "Please enter the content!";
+            },
+            md5_16_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().slice(8, 24) : "Please enter the content!";
+            },
+            sha1_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            sha1_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString() : "Please enter the content!";
+            },
+            sha3_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            sha3_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString() : "Please enter the content!";
+            },
+            sha224_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            sha224_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString() : "Please enter the content!";
+            },
+            sha256_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            sha256_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString() : "Please enter the content!";
+            },
+            sha384_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            sha384_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString() : "Please enter the content!";
+            },
+            sha512_u: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString().toUpperCase() : "Please enter the content!";
+            },
+            sha512_l: function() {
+                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString() : "Please enter the content!";
+            }
+        }
+      })
+      
+      let date = new Date();
+    </script>
+    <footer class="text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <p style="color: #516069"><strong>Copyright © Ian Xia <script>document.write(date.getFullYear().toString());</script> All rights reserved</strong></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.ghink.net/js/jquery/jquery-3.6.0.min.js"></script>
+    <!-- Grey Filter Detector -->
+    <script>
+      $.ajax({
+        type: "GET",
+        url: "https://open.geh.ink/gray_filter",
+        dataType: "json",
+        success: function(data, textStatus){
+          for (let i=0;i<data["accurate_slot"].length;i++) {
+            // Accurate Slot
+            if (Date.now()/1000 >= data["accurate_slot"][i][0] && Date.now()/1000 <= data["accurate_slot"][i][1]) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+          for (let i=0;i<data["day_slot"].length;i++) {
+            // Day Slot
+            let begin = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["day_slot"][i][0][0].toString() + "-" + 
+              data["day_slot"][i][0][1].toString() + " " + 
+              data["day_slot"][i][0][2].toString() + ":" +
+              data["day_slot"][i][0][3].toString() + ":" +
+              data["day_slot"][i][0][4].toString()
+            )
+            let end = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["day_slot"][i][1][0].toString() + "-" + 
+              data["day_slot"][i][1][1].toString() + " " + 
+              data["day_slot"][i][1][2].toString() + ":" +
+              data["day_slot"][i][1][3].toString() + ":" +
+              data["day_slot"][i][1][4].toString()
+            )
+            if (Date.now() >= begin.getTime() && Date.now() <= end.getTime()) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+        }
+      });
+    </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.ghink.net/js/popper/1.16.1/popper.min.js"></script>
+    <script src="https://cdn.ghink.net/assembly/bootstrap/4.6.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

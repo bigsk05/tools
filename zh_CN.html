@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IanTools</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.ghink.net/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.ghink.net/image/avatar/Bigsk.png" type="image/png">
+    <script src="https://cdn.ghink.net/js/vue/2.6.14/vue.min.js"></script>
+    <script src="https://cdn.ghink.net/js/axios/1.1.3/axios.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="https://tools.ianxia.com"><b>Ian</b>Tools</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      语言
+		    </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="en_US.html"><b>English</b></a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.ianxia.com">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://blog.ianxia.com">博客</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="https://tools.ianxia.com">小工具</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section>
+      <div class="jumbotron text-center mt-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>小工具</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="container" id="app">
+        <span v-html="body"></span>
+    </div>
+    <br>
+    <hr>
+    <script>
+        let language = "zh_CN";
+        new Vue({
+            el: '#app',
+            data: {
+              body: "<center><h1>加载中…</h1></center>"
+            },
+            mounted () {
+                let me = this;
+                axios
+                    .get('list.json')
+                    .then(function (response) {
+                        let body = '';
+                        for (let i=0;i<response.data.length;i+=3) {
+                            body += `<div class="row text-center">`;
+                            for (let j=0;i+j<response.data.length && j<3;j++) {
+                                body += `
+                                <div class="col-md-4 pb-1 pb-md-0">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <h5 class="card-title">`+response.data[i+j].name[language]+`</h5>
+                                      <p class="card-subtitle"><span class="badge badge-success">`+response.data[i+j].category[language]+`</span></p>
+                                      <p class="card-text mr-auto">`+response.data[i+j].description[language]+`</p>
+                                      <a href="`+response.data[i+j].path+`/`+language+`.html" class="btn btn-primary" target="_blank">前往</a>
+                                    </div>
+                                  </div>
+                                </div>
+                                `;
+                            }
+                            body += `</div><br>`;
+                        }
+                        me.body = body;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        })
+          
+        let date = new Date();
+    </script>
+    <footer class="text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <p style="color: #516069"><strong>版权所有 © Ian Xia <script>document.write(date.getFullYear().toString());</script> 保留所有权利</strong></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.ghink.net/js/jquery/jquery-3.6.0.min.js"></script>
+    <!-- Grey Filter Detector -->
+    <script>
+      $.ajax({
+        type: "GET",
+        url: "https://open.geh.ink/gray_filter",
+        dataType: "json",
+        success: function(data, textStatus){
+          for (let i=0;i<data["accurate_slot"].length;i++) {
+            // Accurate Slot
+            if (Date.now()/1000 >= data["accurate_slot"][i][0] && Date.now()/1000 <= data["accurate_slot"][i][1]) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+          for (let i=0;i<data["day_slot"].length;i++) {
+            // Day Slot
+            let begin = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["day_slot"][i][0][0].toString() + "-" + 
+              data["day_slot"][i][0][1].toString() + " " + 
+              data["day_slot"][i][0][2].toString() + ":" +
+              data["day_slot"][i][0][3].toString() + ":" +
+              data["day_slot"][i][0][4].toString()
+            )
+            let end = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["day_slot"][i][1][0].toString() + "-" + 
+              data["day_slot"][i][1][1].toString() + " " + 
+              data["day_slot"][i][1][2].toString() + ":" +
+              data["day_slot"][i][1][3].toString() + ":" +
+              data["day_slot"][i][1][4].toString()
+            )
+            if (Date.now() >= begin.getTime() && Date.now() <= end.getTime()) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+        }
+      });
+    </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.ghink.net/js/popper/1.16.1/popper.min.js"></script>
+    <script src="https://cdn.ghink.net/assembly/bootstrap/4.6.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

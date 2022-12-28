@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>小环天线计算器</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.ghink.net/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn.ghink.net/image/avatar/Bigsk.png" type="image/png">
+    <script src="https://cdn.ghink.net/js/vue/2.6.14/vue.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="https://tools.ianxia.com"><b>Ian</b>Tools</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      语言
+		    </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="en_US.html"><b>English</b></a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.ianxia.com">首页</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://blog.ianxia.com">博客</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="../zh_CN.html">小工具</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section>
+      <div class="jumbotron text-center mt-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>小环天线计算器</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row" id="app">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <form class="form-horizontal" role="form">
+              <div class="form-inline">
+                <label><b>频率 (MHz)</b>&nbsp;</label>
+                <input type="number" step="0.01" class="form-control" v-model="frequency" placeholder="Frequency (MHz)">
+              </div><br>
+              <div class="form-inline">
+                <label><b>主环周长 (m)</b>&nbsp;</label>
+                <input type="number" class="form-control" v-model="leng" placeholder="Loop conductor length (m)">
+              </div><br>
+              <div class="form-inline">
+                <label><b>主环材料直径 (mm)</b>&nbsp;</label>
+                <input type="number" class="form-control" v-model="diameter" placeholder="Conductor diameter (mm)">
+              </div><br>
+              <div class="form-inline">
+                <label><b>射频功率 (W)</b>&nbsp;</label>
+                <input type="number" class="form-control" v-model="power" placeholder="RF power (W)">
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <h5>计算结果：</h5>
+            <h5>电感量 (uH) {{inductance}}</h5>
+            <h5>电容量 (pF) {{capacitance}}</h5>
+            <h5>XL = XC (ohms) {{lxlc}}</h5>
+            <h5>分布电容 (pF) {{distributed}}</h5>
+            <h5>调节电容量 (pF) {{tuning_capacitance}}</h5>
+            <h5>主环直径 (m) {{main_loop_diameter}}</h5>
+            <h5>激励环直径 (m) {{feeding_loop_diameter}}</h5>
+            <h5>辐射电阻 (ohms) {{radiation_resistance}}</h5>
+            <h5>损耗电阻 (ohms) {{loss_resistance}}</h5>
+            <h5>并联电阻 (kohms) {{parallel_resistance}}</h5>
+            <h5>效率 (%) {{efficiency}}</h5>
+            <h5>与理想环之比 (dB) {{ctil}}</h5>
+            <h5>Q值 {{lq}}</h5>
+            <h5>带宽 -3dB (kHz) {{bandwidth}}</h5>
+            <h5>调谐电容耐压值 (V) {{crv}}</h5>
+          </div>
+        </div>
+        <div class="text-center">
+          <hr>
+          <h5>算法来源：I6IBE / OH7SV (<a href="http://www.radioamatoripeligni.it/i6ibe/loopflat/loopcalculator.xls">来源</a>)</h5>
+          <h5>语言翻译：Bigsk</h5>
+        </div>
+      </div>
+    </section>
+    <hr>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          frequency: 3.7,
+          leng: 8,
+          diameter: 22,
+          power: 100
+        },
+        computed: {
+            inductance: function() {
+                return 0.0000000623 * parseInt(this.leng) * (7.353 * Math.log10((8 * parseInt(this.leng)) / (Math.PI * parseInt(this.diameter) / 1000)) - 6.386) * 1000000
+            },
+            capacitance: function() {
+                return 1 / (Math.pow((2 * Math.PI * this.frequency * 1000000), 2) * this.inductance / 1000000) * 1000000000000
+            },
+            lxlc: function() {
+                return 1 / (2 * Math.PI * this.frequency * 1000000 * this.capacitance * 0.000000000001)
+            },
+            distributed: function() {
+                return 2.69 * this.leng
+            },
+            tuning_capacitance: function() {
+                return this.capacitance - this.distributed
+            },
+            main_loop_diameter: function() {
+                return this.leng / Math.PI
+            },
+            feeding_loop_diameter: function() {
+                return this.main_loop_diameter / 5
+            },
+            radiation_resistance: function() {
+                return 0.0000000338 * Math.pow((Math.pow(this.frequency, 2) * 10.76 * Math.PI * Math.pow(this.main_loop_diameter, 2) / 4), 2)
+            },
+            loss_resistance: function() {
+                return 0.08298 * Math.sqrt(this.frequency) * this.leng / this.diameter
+            },
+            parallel_resistance: function() {
+                return 0.001 * this.lxlc * this.lq
+            },
+            efficiency: function() {
+                return 100 * this.radiation_resistance / (this.radiation_resistance + this.loss_resistance)
+            },
+            ctil: function() {
+                return 10 * Math.log10(this.efficiency / 100)
+            },
+            lq: function() {
+                return this.lxlc / (2 * (this.radiation_resistance + this.loss_resistance))
+            },
+            bandwidth: function() {
+                return 1000 * this.frequency / this.lq
+            },
+            crv: function() {
+                return Math.sqrt(this.power * this.lxlc * this.lq)
+            }
+        }
+      })
+      
+      let date = new Date();
+    </script>
+    <footer class="text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <p style="color: #516069"><strong>版权所有 © Ian Xia <script>document.write(date.getFullYear().toString());</script> 保留所有权利</strong></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.ghink.net/js/jquery/jquery-3.6.0.min.js"></script>
+    <!-- Grey Filter Detector -->
+    <script>
+      $.ajax({
+        type: "GET",
+        url: "https://open.geh.ink/gray_filter",
+        dataType: "json",
+        success: function(data, textStatus){
+          for (let i=0;i<data["accurate_slot"].length;i++) {
+            // Accurate Slot
+            if (Date.now()/1000 >= data["accurate_slot"][i][0] && Date.now()/1000 <= data["accurate_slot"][i][1]) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+          for (let i=0;i<data["day_slot"].length;i++) {
+            // Day Slot
+            let begin = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["day_slot"][i][0][0].toString() + "-" + 
+              data["day_slot"][i][0][1].toString() + " " + 
+              data["day_slot"][i][0][2].toString() + ":" +
+              data["day_slot"][i][0][3].toString() + ":" +
+              data["day_slot"][i][0][4].toString()
+            )
+            let end = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["day_slot"][i][1][0].toString() + "-" + 
+              data["day_slot"][i][1][1].toString() + " " + 
+              data["day_slot"][i][1][2].toString() + ":" +
+              data["day_slot"][i][1][3].toString() + ":" +
+              data["day_slot"][i][1][4].toString()
+            )
+            if (Date.now() >= begin.getTime() && Date.now() <= end.getTime()) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+        }
+      });
+    </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.ghink.net/js/popper/1.16.1/popper.min.js"></script>
+    <script src="https://cdn.ghink.net/assembly/bootstrap/4.6.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

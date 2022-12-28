@@ -1,0 +1,115 @@
+[
+    {
+        "name": {
+            "zh_CN": "计算通信方位角和大圆距离",
+            "en_US": "Calculate communication azimuth and great-circle distance"
+        },
+        "description": {
+            "zh_CN": "在线实时计算通信方位角和大圆距",
+            "en_US": "Calculate communication azimuth and great-circle distance online"
+        },
+        "category": {
+            "zh_CN": "业余无线电",
+            "en_US": "Amateur Radio"
+        },
+        "path": "commu_a_c"
+    },{
+        "name": {
+            "zh_CN": "小环天线计算器",
+            "en_US": "Magnetic loop antenna calculator for round copper construction"
+        },
+        "description": {
+            "zh_CN": "在线计算小环天线相关参数",
+            "en_US": "Magnetic loop antenna calculator for round copper construction"
+        },
+        "category": {
+            "zh_CN": "业余无线电",
+            "en_US": "Amateur Radio"
+        },
+        "path": "loopflat"
+    },{
+        "name": {
+            "zh_CN": "计算哈希值",
+            "en_US": "Compute Hash"
+        },
+        "description": {
+            "zh_CN": "在线同步快速计算各种哈希值",
+            "en_US": "Online synchronous fast calculation of various hash values"
+        },
+        "category": {
+            "zh_CN": "计算机科学",
+            "en_US": "Computer Science"
+        },
+        "path": "hash"
+    },{
+        "name": {
+            "zh_CN": "生成二维码",
+            "en_US": "Generate QR code"
+        },
+        "description": {
+            "zh_CN": "在线同步快速生成二维码",
+            "en_US": "Online fast real-time generation of QR code"
+        },
+        "category": {
+            "zh_CN": "计算机科学",
+            "en_US": "Computer Science"
+        },
+        "path": "qrcode"
+    },{
+        "name": {
+            "zh_CN": "编解码URI",
+            "en_US": "Encode / Decode URI"
+        },
+        "description": {
+            "zh_CN": "在线同步快速编解码您的URI",
+            "en_US": "Online fast real-time encode or decode your URI"
+        },
+        "category": {
+            "zh_CN": "计算机科学",
+            "en_US": "Computer Science"
+        },
+        "path": "url_en_decode"
+    },{
+        "name": {
+            "zh_CN": "Base64编解码",
+            "en_US": "Encode / Decode Base64"
+        },
+        "description": {
+            "zh_CN": "在线同步快速编解码您的Base64",
+            "en_US": "Online fast real-time encode or decode your Base64"
+        },
+        "category": {
+            "zh_CN": "计算机科学",
+            "en_US": "Computer Science"
+        },
+        "path": "base64"
+    },{
+        "name": {
+            "zh_CN": "弧度 / 角度换算",
+            "en_US": "Radian / Degree Converter"
+        },
+        "description": {
+            "zh_CN": "在线同步快速换算角度与弧度",
+            "en_US": "Online synchronous fast conversion of degree and radian"
+        },
+        "category": {
+            "zh_CN": "数学",
+            "en_US": "Mathematics"
+        },
+        "path": "d_r_trans"
+    },{
+        "name": {
+            "zh_CN": "椭球模型地球上点之间的距离",
+            "en_US": "Distances between points on an ellipsoidal-model earth"
+        },
+        "description": {
+            "zh_CN": "在线快速计算椭球模型地球上点之间的距离",
+            "en_US": "Online synchronous fast calculation of distance between points on the earth of ellipsoidal model"
+        },
+        "category": {
+            "zh_CN": "地理学",
+            "en_US": "Geography"
+        },
+        "path": "vincenty"
+    }
+]
