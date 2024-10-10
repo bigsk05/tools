@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Compute Hash</title>
+    <title>Magnetic loop antenna calculator for round copper construction</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -24,7 +24,7 @@
 		      Language
 		    </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="zh_CN.html"><b>简体中文</b></a>
+              <a class="dropdown-item" href="zh.html"><b>简体中文</b></a>
             </div>
           </li>
           <li class="nav-item">
@@ -40,7 +40,7 @@
             <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../en_US.html">Tools</a>
+            <a class="nav-link" href="../en.html">Tools</a>
           </li>
         </ul>
       </div>
@@ -50,107 +50,117 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>Compute Hash</h1>
+              <h1>Magnetic loop antenna calculator for round copper construction</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container" id="app">
-        <div class="row">
-          <div class="col-md-12">
-            <form role="form">
-              <div>
-                <label><b>Please enter the content:</b>&nbsp;</label>
-                <input type="text" class="form-control" v-model="input" placeholder="Please enter the content"><br>
+      <div class="container">
+        <div class="row" id="app">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <form class="form-horizontal" role="form">
+              <div class="form-inline">
+                <label><b>Frequency (MHz)</b>&nbsp;</label>
+                <input type="number" step="0.01" class="form-control" v-model="frequency" placeholder="Frequency (MHz)">
+              </div><br>
+              <div class="form-inline">
+                <label><b>Loop conductor length (m)</b>&nbsp;</label>
+                <input type="number" class="form-control" v-model="leng" placeholder="Loop conductor length (m)">
+              </div><br>
+              <div class="form-inline">
+                <label><b>Conductor diameter (mm)</b>&nbsp;</label>
+                <input type="number" class="form-control" v-model="diameter" placeholder="Conductor diameter (mm)">
+              </div><br>
+              <div class="form-inline">
+                <label><b>RF power (W)</b>&nbsp;</label>
+                <input type="number" class="form-control" v-model="power" placeholder="RF power (W)">
               </div>
             </form>
           </div>
-        </div>
-        <div class="row" style="word-break:break-all; word-wrap:break-all;">
-          <div class="col-md-12">
-            <div><b>Calculation results:</b></div>
-            <div><b>MD5 32 Uppercase: {{md5_32_u}}</b></div>
-            <div><b>MD5 32 Lowercase: {{md5_32_l}}</b></div>
-            <div><b>MD5 16 Uppercase: {{md5_16_u}}</b></div>
-            <div><b>MD5 16 Lowercase: {{md5_16_l}}</b></div>
-            <div><b>SHA1 Uppercase: {{sha1_u}}</b></div>
-            <div><b>SHA1 Lowercase: {{sha1_l}}</b></div>
-            <div><b>SHA3 Uppercase: {{sha3_u}}</b></div>
-            <div><b>SHA3 Lowercase: {{sha3_l}}</b></div>
-            <div><b>SHA224 Uppercase: {{sha224_u}}</b></div>
-            <div><b>SHA224 Lowercase: {{sha224_l}}</b></div>
-            <div><b>SHA256 Uppercase: {{sha256_u}}</b></div>
-            <div><b>SHA256 Lowercase: {{sha256_l}}</b></div>
-            <div><b>SHA384 Uppercase: {{sha384_u}}</b></div>
-            <div><b>SHA384 Lowercase: {{sha384_l}}</b></div>
-            <div><b>SHA512 Uppercase: {{sha512_u}}</b></div>
-            <div><b>SHA512 Lowercase: {{sha512_l}}</b></div>
+          <div class="col-md-6">
+            <h5>Calculation results: </h5>
+            <h5>Inductance (uH) {{inductance}}</h5>
+            <h5>Capacitance (pF) {{capacitance}}</h5>
+            <h5>XL = XC (ohms) {{lxlc}}</h5>
+            <h5>Distributed C (pF) {{distributed}}</h5>
+            <h5>Tuning capacitance (pF) {{tuning_capacitance}}</h5>
+            <h5>Main loop diameter (m) {{main_loop_diameter}}</h5>
+            <h5>Feeding loop diameter (m) {{feeding_loop_diameter}}</h5>
+            <h5>Radiation resistance (ohms) {{radiation_resistance}}</h5>
+            <h5>Loss resistance (ohms) {{loss_resistance}}</h5>
+            <h5>Parallel resistance (kohms) {{parallel_resistance}}</h5>
+            <h5>Efficiency (%) {{efficiency}}</h5>
+            <h5>Compared to ideal loop (dB) {{ctil}}</h5>
+            <h5>Loaded Q {{lq}}</h5>
+            <h5>Bandwidth -3dB (kHz) {{bandwidth}}</h5>
+            <h5>Capcitor rms voltage (V) {{crv}}</h5>
           </div>
         </div>
         <div class="text-center">
           <hr>
-          <h5>Library used: <a href="https://github.com/brix/crypto-js">Crypto.js</a></h5>
+          <h5>Algorithm source: I6IBE / OH7SV (<a href="http://www.radioamatoripeligni.it/i6ibe/loopflat/loopcalculator.xls">Source</a>)</h5>
+          <h5>Language translation: Bigsk</h5>
         </div>
       </div>
     </section>
     <hr>
-    <script src="https://cdn.gh.ink/js/crypto/crypto-js.js"></script>
     <script>
       new Vue({
         el: '#app',
         data: {
-          input: "Please enter the content"
+          frequency: 3.7,
+          leng: 8,
+          diameter: 22,
+          power: 100
         },
         computed: {
-            md5_32_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase() : "Please enter the content!";
+            inductance: function() {
+                return 0.0000000623 * parseInt(this.leng) * (7.353 * Math.log10((8 * parseInt(this.leng)) / (Math.PI * parseInt(this.diameter) / 1000)) - 6.386) * 1000000
             },
-            md5_32_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input) : "Please enter the content!";
+            capacitance: function() {
+                return 1 / (Math.pow((2 * Math.PI * this.frequency * 1000000), 2) * this.inductance / 1000000) * 1000000000000
             },
-            md5_16_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase().slice(8, 24) : "Please enter the content!";
+            lxlc: function() {
+                return 1 / (2 * Math.PI * this.frequency * 1000000 * this.capacitance * 0.000000000001)
             },
-            md5_16_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().slice(8, 24) : "Please enter the content!";
+            distributed: function() {
+                return 2.69 * this.leng
             },
-            sha1_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString().toUpperCase() : "Please enter the content!";
+            tuning_capacitance: function() {
+                return this.capacitance - this.distributed
             },
-            sha1_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString() : "Please enter the content!";
+            main_loop_diameter: function() {
+                return this.leng / Math.PI
             },
-            sha3_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString().toUpperCase() : "Please enter the content!";
+            feeding_loop_diameter: function() {
+                return this.main_loop_diameter / 5
             },
-            sha3_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString() : "Please enter the content!";
+            radiation_resistance: function() {
+                return 0.0000000338 * Math.pow((Math.pow(this.frequency, 2) * 10.76 * Math.PI * Math.pow(this.main_loop_diameter, 2) / 4), 2)
             },
-            sha224_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString().toUpperCase() : "Please enter the content!";
+            loss_resistance: function() {
+                return 0.08298 * Math.sqrt(this.frequency) * this.leng / this.diameter
             },
-            sha224_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString() : "Please enter the content!";
+            parallel_resistance: function() {
+                return 0.001 * this.lxlc * this.lq
             },
-            sha256_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString().toUpperCase() : "Please enter the content!";
+            efficiency: function() {
+                return 100 * this.radiation_resistance / (this.radiation_resistance + this.loss_resistance)
             },
-            sha256_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString() : "Please enter the content!";
+            ctil: function() {
+                return 10 * Math.log10(this.efficiency / 100)
             },
-            sha384_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString().toUpperCase() : "Please enter the content!";
+            lq: function() {
+                return this.lxlc / (2 * (this.radiation_resistance + this.loss_resistance))
             },
-            sha384_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString() : "Please enter the content!";
+            bandwidth: function() {
+                return 1000 * this.frequency / this.lq
             },
-            sha512_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString().toUpperCase() : "Please enter the content!";
-            },
-            sha512_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString() : "Please enter the content!";
+            crv: function() {
+                return Math.sqrt(this.power * this.lxlc * this.lq)
             }
         }
       })

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>小环天线计算器</title>
+    <title>Base64编解码</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -24,7 +24,7 @@
 		      语言
 		    </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="en_US.html"><b>English</b></a>
+              <a class="dropdown-item" href="en.html"><b>English</b></a>
             </div>
           </li>
           <li class="nav-item">
@@ -40,7 +40,7 @@
             <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../zh_CN.html">小工具</a>
+            <a class="nav-link" href="../zh.html">小工具</a>
           </li>
         </ul>
       </div>
@@ -50,117 +50,87 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>小环天线计算器</h1>
+              <h1>Base64编解码</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container">
-        <div class="row" id="app">
-          <div class="col-md-1"></div>
-          <div class="col-md-5">
-            <form class="form-horizontal" role="form">
-              <div class="form-inline">
-                <label><b>频率 (MHz)</b>&nbsp;</label>
-                <input type="number" step="0.01" class="form-control" v-model="frequency" placeholder="Frequency (MHz)">
-              </div><br>
-              <div class="form-inline">
-                <label><b>主环周长 (m)</b>&nbsp;</label>
-                <input type="number" class="form-control" v-model="leng" placeholder="Loop conductor length (m)">
-              </div><br>
-              <div class="form-inline">
-                <label><b>主环材料直径 (mm)</b>&nbsp;</label>
-                <input type="number" class="form-control" v-model="diameter" placeholder="Conductor diameter (mm)">
-              </div><br>
-              <div class="form-inline">
-                <label><b>射频功率 (W)</b>&nbsp;</label>
-                <input type="number" class="form-control" v-model="power" placeholder="RF power (W)">
-              </div>
-            </form>
-          </div>
-          <div class="col-md-6">
-            <h5>计算结果：</h5>
-            <h5>电感量 (uH) {{inductance}}</h5>
-            <h5>电容量 (pF) {{capacitance}}</h5>
-            <h5>XL = XC (ohms) {{lxlc}}</h5>
-            <h5>分布电容 (pF) {{distributed}}</h5>
-            <h5>调节电容量 (pF) {{tuning_capacitance}}</h5>
-            <h5>主环直径 (m) {{main_loop_diameter}}</h5>
-            <h5>激励环直径 (m) {{feeding_loop_diameter}}</h5>
-            <h5>辐射电阻 (ohms) {{radiation_resistance}}</h5>
-            <h5>损耗电阻 (ohms) {{loss_resistance}}</h5>
-            <h5>并联电阻 (kohms) {{parallel_resistance}}</h5>
-            <h5>效率 (%) {{efficiency}}</h5>
-            <h5>与理想环之比 (dB) {{ctil}}</h5>
-            <h5>Q值 {{lq}}</h5>
-            <h5>带宽 -3dB (kHz) {{bandwidth}}</h5>
-            <h5>调谐电容耐压值 (V) {{crv}}</h5>
-          </div>
-        </div>
+      <div class="container" id="app">
         <div class="text-center">
-          <hr>
-          <h5>算法来源：I6IBE / OH7SV (<a href="http://www.radioamatoripeligni.it/i6ibe/loopflat/loopcalculator.xls">来源</a>)</h5>
-          <h5>语言翻译：Bigsk</h5>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text"
+                        aria-selected="true">
+                        <h6>文本</h6>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content border border-top-0" id="myTabContent">
+                <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <form role="form">
+                              <div>
+                                <label><b>原文：</b>&nbsp;</label>
+                                <input type="text" class="form-control" v-model="source_text" placeholder="请输入内容"><br>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
+                            <form role="form">
+                              <div>
+                                <label><b>Base64：</b>&nbsp;</label>
+                                <textarea type="text" class="form-control" v-model="based_text" placeholder="请输入内容"></textarea><br>
+                              </div>
+                            </form>
+                        </div>
+                        <div class="col-md-5">
+                            <form role="form">
+                              <div>
+                                <label><b>Base64 URI：</b>&nbsp;</label>
+                                <textarea type="text" class="form-control" v-model="based_uri_text" placeholder="请输入内容"></textarea><br>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+              <hr>
+              <h5>使用类库：<a href="https://github.com/dankogai/js-base64">js-base64</a></h5>
+            </div>
         </div>
       </div>
     </section>
     <hr>
+    <script src="https://cdn.gh.ink/js/base64/3.7.2/base64.min.js"></script>
     <script>
       new Vue({
         el: '#app',
         data: {
-          frequency: 3.7,
-          leng: 8,
-          diameter: 22,
-          power: 100
+          source_text: "请输入内容",
+          based_text: Base64.encode('请输入内容'),
+          based_uri_text: Base64.encodeURI('请输入内容')
         },
-        computed: {
-            inductance: function() {
-                return 0.0000000623 * parseInt(this.leng) * (7.353 * Math.log10((8 * parseInt(this.leng)) / (Math.PI * parseInt(this.diameter) / 1000)) - 6.386) * 1000000
+        watch: {
+            source_text: function() {
+                this.based_text = Base64.encode(this.source_text);
+                this.based_uri_text = Base64.encodeURI(this.source_text);
             },
-            capacitance: function() {
-                return 1 / (Math.pow((2 * Math.PI * this.frequency * 1000000), 2) * this.inductance / 1000000) * 1000000000000
+            based_text: function() {
+                this.source_text = Base64.decode(this.based_text);
+                this.based_uri_text = Base64.encodeURI(this.source_text);
             },
-            lxlc: function() {
-                return 1 / (2 * Math.PI * this.frequency * 1000000 * this.capacitance * 0.000000000001)
-            },
-            distributed: function() {
-                return 2.69 * this.leng
-            },
-            tuning_capacitance: function() {
-                return this.capacitance - this.distributed
-            },
-            main_loop_diameter: function() {
-                return this.leng / Math.PI
-            },
-            feeding_loop_diameter: function() {
-                return this.main_loop_diameter / 5
-            },
-            radiation_resistance: function() {
-                return 0.0000000338 * Math.pow((Math.pow(this.frequency, 2) * 10.76 * Math.PI * Math.pow(this.main_loop_diameter, 2) / 4), 2)
-            },
-            loss_resistance: function() {
-                return 0.08298 * Math.sqrt(this.frequency) * this.leng / this.diameter
-            },
-            parallel_resistance: function() {
-                return 0.001 * this.lxlc * this.lq
-            },
-            efficiency: function() {
-                return 100 * this.radiation_resistance / (this.radiation_resistance + this.loss_resistance)
-            },
-            ctil: function() {
-                return 10 * Math.log10(this.efficiency / 100)
-            },
-            lq: function() {
-                return this.lxlc / (2 * (this.radiation_resistance + this.loss_resistance))
-            },
-            bandwidth: function() {
-                return 1000 * this.frequency / this.lq
-            },
-            crv: function() {
-                return Math.sqrt(this.power * this.lxlc * this.lq)
+            based_uri_text: function() {
+                this.source_text = Base64.decode(this.based_uri_text);
+                this.based_text = Base64.encode(this.source_text);
             }
         }
       })

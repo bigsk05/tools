@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>URI编解码</title>
+    <title>Distances between points on an ellipsoidal-model earth</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -21,17 +21,17 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		      语言
+		      Language
 		    </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="en_US.html"><b>English</b></a>
+              <a class="dropdown-item" href="zh.html"><b>简体中文</b></a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.ianxia.com">首页</a>
+            <a class="nav-link" href="https://www.ianxia.com">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://blog.ianxia.com">博客</a>
+            <a class="nav-link" href="https://blog.ianxia.com">Blog (In Chinese)</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
@@ -40,7 +40,7 @@
             <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../zh_CN.html">小工具</a>
+            <a class="nav-link" href="../en.html">Tools</a>
           </li>
         </ul>
       </div>
@@ -50,54 +50,112 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>URI编解码</h1>
+              <h1>Distances between points on an ellipsoidal-model earth</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container" id="app">
-        <div class="row">
-          <div class="col-md-12">
-            <form role="form">
-              <div>
-                <label><b>请输入内容：</b>&nbsp;</label>
-                <input type="text" class="form-control" v-model="input" placeholder="请输入内容"><br>
-              </div>
+      <div class="container">
+        <div class="row" id="app">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <form class="form-horizontal" role="form">
+              <div class="form-inline">
+                <label><b>Longitude of Point A</b>&nbsp;</label>
+                <input type="number" step="0.01" class="form-control" max="180" min="-180" v-model="lopa" placeholder="Longitude of Point A">
+              </div><br>
+              <div class="form-inline">
+                <label><b>Latitude of Point A</b>&nbsp;</label>
+                <input type="number" step="0.01" class="form-control" max="90" min="-90" v-model="lapa" placeholder="Latitude of Point A">
+              </div><br>
+              <div class="form-inline">
+                <label><b>Longitude of Point B</b>&nbsp;</label>
+                <input type="number" step="0.01" class="form-control" max="180" min="-180" v-model="lopb" placeholder="Longitude of Point B">
+              </div><br>
+              <div class="form-inline">
+                <label><b>Latitude of Point B</b>&nbsp;</label>
+                <input type="number" step="0.01" class="form-control" max="90" min="-90" v-model="lapb" placeholder="Latitude of Point B">
+              </div><br>
             </form>
           </div>
-        </div>
-        <div class="row" style="word-break:break-all; word-wrap:break-all;">
-          <div class="col-md-12">
-            <div><b>编解码结果：</b></div>
-            <div><b>解码整个URI: {{decoded_uri}}</b></div>
-            <div><b>编码整个URI: {{encoded_uri}}</b></div>
-            <div><b>解码部分URI: {{decoded_uri_com}}</b></div>
-            <div><b>编码部分URI: {{encoded_uri_com}}</b></div>
+          <div class="col-md-6">
+            <h5>Calculation results: </h5>
+            <h5>Distance: {{distance}} km</h5>
           </div>
+        </div>
+        <div class="text-center">
+          <hr>
+          <h5>Algorithm source: <a href="http://www.movable-type.co.uk/scripts/latlong-vincenty.html">Vincenty solutions of geodesics on the ellipsoid</a></h5>
+          <h5>Language translation: Bigsk</h5>
         </div>
       </div>
     </section>
     <hr>
     <script>
+        let a = 6378137;
+        let b = 6356752.314245;
+        let f = 1 / 298.257223563;
+        
+        function getDistance(lat_one, lon_one, lat_two, lon_two) {
+            let L = toRadians(lon_one - lon_two);
+            let U1 = Math.atan((1 - f) * Math.tan(toRadians(lat_one)));
+            let U2 = Math.atan((1 - f) * Math.tan(toRadians(lat_two)));
+            let sinU1 = Math.sin(U1), cosU1 = Math.cos(U1),
+                    sinU2 = Math.sin(U2), cosU2 = Math.cos(U2);
+            let lambda = L, lambdaP = Math.PI;
+            let cosSqAlpha = 0, sinSigma = 0, cos2SigmaM = 0, cosSigma = 0, sigma = 0;
+            let circleCount = 40;
+            while (Math.abs(lambda - lambdaP) > 1e-12 && --circleCount > 0) {
+                let sinLambda = Math.sin(lambda), cosLambda = Math.cos(lambda);
+                sinSigma = Math.sqrt((cosU2 * sinLambda) * (cosU2 * sinLambda) +
+                        (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
+                if (sinSigma == 0) {
+                    return 0;
+                }
+                cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+                sigma = Math.atan2(sinSigma, cosSigma);
+                let alpha = Math.asin(cosU1 * cosU2 * sinLambda / sinSigma);
+                cosSqAlpha = Math.cos(alpha) * Math.cos(alpha);
+                cos2SigmaM = cosSigma - 2 * sinU1 * sinU2 / cosSqAlpha;
+                let C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+                lambdaP = lambda;
+                lambda = L + (1 - C) * f * Math.sin(alpha) *
+                        (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
+            }
+            if (circleCount == 0) {
+                return NaN;
+            }
+            let uSq = cosSqAlpha * (a * a - b * b) / (b * b);
+            let A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
+            let B = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+            let deltaSigma = B * sinSigma * (cos2SigmaM + B / 4 * (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) -
+                    B / 6 * cos2SigmaM * (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
+        
+            let result = b * A * (sigma - deltaSigma) / 1000;
+            return result;
+        }
+        
+        function toRadians(angle) {
+            let result = 0;
+            if (angle != null) {
+                result = angle * Math.PI / 180;
+            }
+            return result;
+        }
+
       new Vue({
         el: '#app',
         data: {
-          input: "请输入内容"
+          lopa: 120,
+          lapa: 30,
+          lopb: 79,
+          lapb: 44
         },
         computed: {
-            decoded_uri: function() {
-                return this.input.toString().length != 0 ? decodeURI(this.input) : "请输入内容！";
-            },
-            encoded_uri: function() {
-                return this.input.toString().length != 0 ? encodeURI(this.input) : "请输入内容！";
-            },
-            decoded_uri_com: function() {
-                return this.input.toString().length != 0 ? decodeURIComponent(this.input) : "请输入内容！";
-            },
-            encoded_uri_com: function() {
-                return this.input.toString().length != 0 ? encodeURIComponent(this.input) : "请输入内容！";
+            distance: function() {
+                return getDistance(this.lapa, this.lopa, this.lapb, this.lopb);
             }
         }
       })
@@ -108,7 +166,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <p style="color: #516069"><strong>版权所有 © Ian Xia <script>document.write(date.getFullYear().toString());</script> 保留所有权利</strong></p>
+            <p style="color: #516069"><strong>Copyright © Ian Xia <script>document.write(date.getFullYear().toString());</script> All rights reserved</strong></p>
           </div>
         </div>
       </div>

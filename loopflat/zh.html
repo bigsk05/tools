@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Magnetic loop antenna calculator for round copper construction</title>
+    <title>小环天线计算器</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -21,17 +21,17 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		      Language
+		      语言
 		    </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="zh_CN.html"><b>简体中文</b></a>
+              <a class="dropdown-item" href="en.html"><b>English</b></a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.ianxia.com">Home</a>
+            <a class="nav-link" href="https://www.ianxia.com">首页</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://blog.ianxia.com">Blog (In Chinese)</a>
+            <a class="nav-link" href="https://blog.ianxia.com">博客</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
@@ -40,7 +40,7 @@
             <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../en_US.html">Tools</a>
+            <a class="nav-link" href="../zh.html">小工具</a>
           </li>
         </ul>
       </div>
@@ -50,7 +50,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>Magnetic loop antenna calculator for round copper construction</h1>
+              <h1>小环天线计算器</h1>
             </div>
           </div>
         </div>
@@ -63,46 +63,46 @@
           <div class="col-md-5">
             <form class="form-horizontal" role="form">
               <div class="form-inline">
-                <label><b>Frequency (MHz)</b>&nbsp;</label>
+                <label><b>频率 (MHz)</b>&nbsp;</label>
                 <input type="number" step="0.01" class="form-control" v-model="frequency" placeholder="Frequency (MHz)">
               </div><br>
               <div class="form-inline">
-                <label><b>Loop conductor length (m)</b>&nbsp;</label>
+                <label><b>主环周长 (m)</b>&nbsp;</label>
                 <input type="number" class="form-control" v-model="leng" placeholder="Loop conductor length (m)">
               </div><br>
               <div class="form-inline">
-                <label><b>Conductor diameter (mm)</b>&nbsp;</label>
+                <label><b>主环材料直径 (mm)</b>&nbsp;</label>
                 <input type="number" class="form-control" v-model="diameter" placeholder="Conductor diameter (mm)">
               </div><br>
               <div class="form-inline">
-                <label><b>RF power (W)</b>&nbsp;</label>
+                <label><b>射频功率 (W)</b>&nbsp;</label>
                 <input type="number" class="form-control" v-model="power" placeholder="RF power (W)">
               </div>
             </form>
           </div>
           <div class="col-md-6">
-            <h5>Calculation results: </h5>
-            <h5>Inductance (uH) {{inductance}}</h5>
-            <h5>Capacitance (pF) {{capacitance}}</h5>
+            <h5>计算结果：</h5>
+            <h5>电感量 (uH) {{inductance}}</h5>
+            <h5>电容量 (pF) {{capacitance}}</h5>
             <h5>XL = XC (ohms) {{lxlc}}</h5>
-            <h5>Distributed C (pF) {{distributed}}</h5>
-            <h5>Tuning capacitance (pF) {{tuning_capacitance}}</h5>
-            <h5>Main loop diameter (m) {{main_loop_diameter}}</h5>
-            <h5>Feeding loop diameter (m) {{feeding_loop_diameter}}</h5>
-            <h5>Radiation resistance (ohms) {{radiation_resistance}}</h5>
-            <h5>Loss resistance (ohms) {{loss_resistance}}</h5>
-            <h5>Parallel resistance (kohms) {{parallel_resistance}}</h5>
-            <h5>Efficiency (%) {{efficiency}}</h5>
-            <h5>Compared to ideal loop (dB) {{ctil}}</h5>
-            <h5>Loaded Q {{lq}}</h5>
-            <h5>Bandwidth -3dB (kHz) {{bandwidth}}</h5>
-            <h5>Capcitor rms voltage (V) {{crv}}</h5>
+            <h5>分布电容 (pF) {{distributed}}</h5>
+            <h5>调节电容量 (pF) {{tuning_capacitance}}</h5>
+            <h5>主环直径 (m) {{main_loop_diameter}}</h5>
+            <h5>激励环直径 (m) {{feeding_loop_diameter}}</h5>
+            <h5>辐射电阻 (ohms) {{radiation_resistance}}</h5>
+            <h5>损耗电阻 (ohms) {{loss_resistance}}</h5>
+            <h5>并联电阻 (kohms) {{parallel_resistance}}</h5>
+            <h5>效率 (%) {{efficiency}}</h5>
+            <h5>与理想环之比 (dB) {{ctil}}</h5>
+            <h5>Q值 {{lq}}</h5>
+            <h5>带宽 -3dB (kHz) {{bandwidth}}</h5>
+            <h5>调谐电容耐压值 (V) {{crv}}</h5>
           </div>
         </div>
         <div class="text-center">
           <hr>
-          <h5>Algorithm source: I6IBE / OH7SV (<a href="http://www.radioamatoripeligni.it/i6ibe/loopflat/loopcalculator.xls">Source</a>)</h5>
-          <h5>Language translation: Bigsk</h5>
+          <h5>算法来源：I6IBE / OH7SV (<a href="http://www.radioamatoripeligni.it/i6ibe/loopflat/loopcalculator.xls">来源</a>)</h5>
+          <h5>语言翻译：Bigsk</h5>
         </div>
       </div>
     </section>
@@ -171,7 +171,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <p style="color: #516069"><strong>Copyright © Ian Xia <script>document.write(date.getFullYear().toString());</script> All rights reserved</strong></p>
+            <p style="color: #516069"><strong>版权所有 © Ian Xia <script>document.write(date.getFullYear().toString());</script> 保留所有权利</strong></p>
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Radian / Degree Converter</title>
+    <title>弧度 / 角度换算器</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -21,17 +21,17 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		      Language
+		      语言
 		    </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="zh_CN.html"><b>简体中文</b></a>
+              <a class="dropdown-item" href="en.html"><b>English</b></a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.ianxia.com">Home</a>
+            <a class="nav-link" href="https://www.ianxia.com">首页</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://blog.ianxia.com">Blog (In Chinese)</a>
+            <a class="nav-link" href="https://blog.ianxia.com">博客</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
@@ -40,7 +40,7 @@
             <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../en_US.html">Tools</a>
+            <a class="nav-link" href="../zh.html">小工具</a>
           </li>
         </ul>
       </div>
@@ -50,7 +50,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>Radian / Degree Converter</h1>
+              <h1>弧度 / 角度换算器</h1>
             </div>
           </div>
         </div>
@@ -62,24 +62,24 @@
           <div class="col-md-4">
             <form role="form">
               <div>
-                <label><b>Degree: </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="deg" @input="degWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>角度：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg" @input="degWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
           <div class="col-md-4">
             <form role="form">
               <div>
-                <label><b>Radian: </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="rad" @input="radWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>弧度：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="rad" @input="radWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
           <div class="col-md-4">
             <form role="form">
               <div>
-                <label><b>Radian / π: </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="rad_pi" @input="rad_piWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>弧度 / π：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="rad_pi" @input="rad_piWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
@@ -88,24 +88,24 @@
           <div class="col-md-4">
             <form role="form">
               <div>
-                <label><b>Angle Group (Degree): </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="deg_d" @input="deg_dWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>角度组（度）：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_d" @input="deg_dWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
           <div class="col-md-4">
             <form role="form">
               <div>
-                <label><b>Angle Group (Minute): </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="deg_m" @input="deg_mWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>角度组（分）：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_m" @input="deg_mWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
           <div class="col-md-4">
             <form role="form">
               <div>
-                <label><b>Angle Group (Second): </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="deg_s" @input="deg_sWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>角度组（秒）：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_s" @input="deg_sWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
@@ -114,16 +114,16 @@
           <div class="col-md-6">
             <form role="form">
               <div>
-                <label><b>Degree (Minute Only): </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="deg_mo" @input="deg_moWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>角度（仅分）：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_mo" @input="deg_moWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
           <div class="col-md-6">
             <form role="form">
               <div>
-                <label><b>Degree (Second Only): </b>&nbsp;</label>
-                <input type="number" class="form-control" step="0.01" :value="deg_so" @input="deg_soWatch($event.target.value)" placeholder="Please enter the content"><br>
+                <label><b>角度（仅秒）：</b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_so" @input="deg_soWatch($event.target.value)" placeholder="请输入内容"><br>
               </div>
             </form>
           </div>
@@ -226,7 +226,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <p style="color: #516069"><strong>Copyright © Ian Xia <script>document.write(date.getFullYear().toString());</script> All rights reserved</strong></p>
+            <p style="color: #516069"><strong>版权所有 © Ian Xia <script>document.write(date.getFullYear().toString());</script> 保留所有权利</strong></p>
           </div>
         </div>
       </div>
