@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>计算哈希值</title>
+    <title>获取APRS IS密码</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -50,111 +50,70 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>计算哈希值</h1>
+              <h1>
+                获取APRS IS密码
+              </h1>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container" id="app">
-        <div class="row">
-          <div class="col-md-12">
-            <form role="form">
-              <div>
-                <label><b>请输入内容：</b>&nbsp;</label>
-                <input type="text" class="form-control" v-model="input" placeholder="请输入内容"><br>
+      <div class="container">
+        <div class="row" id="app">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <form class="form-horizontal" role="form">
+              <div class="form-inline">
+                <label><b>呼号：</b>&nbsp;</label>
+                <input type="text" class="form-control" v-model="callsign" style="width:120px">
+                &nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" v-on:click="getPasscode(callsign)" type="button">获取</button>
               </div>
             </form>
           </div>
-        </div>
-        <div class="row" style="word-break:break-all; word-wrap:break-all;">
-          <div class="col-md-12">
-            <div><b>计算结果：</b></div>
-            <div><b>MD5 32 大写: {{md5_32_u}}</b></div>
-            <div><b>MD5 32 小写: {{md5_32_l}}</b></div>
-            <div><b>MD5 16 大写: {{md5_16_u}}</b></div>
-            <div><b>MD5 16 小写: {{md5_16_l}}</b></div>
-            <div><b>SHA1 大写: {{sha1_u}}</b></div>
-            <div><b>SHA1 小写: {{sha1_l}}</b></div>
-            <div><b>SHA3 大写: {{sha3_u}}</b></div>
-            <div><b>SHA3 小写: {{sha3_l}}</b></div>
-            <div><b>SHA224 大写: {{sha224_u}}</b></div>
-            <div><b>SHA224 小写: {{sha224_l}}</b></div>
-            <div><b>SHA256 大写: {{sha256_u}}</b></div>
-            <div><b>SHA256 小写: {{sha256_l}}</b></div>
-            <div><b>SHA384 大写: {{sha384_u}}</b></div>
-            <div><b>SHA384 小写: {{sha384_l}}</b></div>
-            <div><b>SHA512 大写: {{sha512_u}}</b></div>
-            <div><b>SHA512 小写: {{sha512_l}}</b></div>
+          <div class="col-md-6">
+            <label><b>APRS IS密码为：</b></label>
+            <p>{{passcode}}</p>
           </div>
         </div>
         <div class="text-center">
           <hr>
-          <h5>使用类库：<a href="https://github.com/brix/crypto-js">Crypto.js</a></h5>
+          <h5>算法来源：<a href="https://github.com/PU5KOD/APRS-Passcode-Generator">APRS-Passcode-Generator</a></h5>
         </div>
       </div>
     </section>
     <hr>
-    <script src="https://cdn.gh.ink/js/crypto/crypto-js.js"></script>
     <script>
       new Vue({
         el: '#app',
         data: {
-          input: "请输入内容"
+          callsign: "",
+          passcode: "请按获取"
         },
-        computed: {
-            md5_32_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            md5_32_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input) : "请输入内容！";
-            },
-            md5_16_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase().slice(8, 24) : "请输入内容！";
-            },
-            md5_16_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().slice(8, 24) : "请输入内容！";
-            },
-            sha1_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha1_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString() : "请输入内容！";
-            },
-            sha3_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha3_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString() : "请输入内容！";
-            },
-            sha224_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha224_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString() : "请输入内容！";
-            },
-            sha256_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha256_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString() : "请输入内容！";
-            },
-            sha384_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha384_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString() : "请输入内容！";
-            },
-            sha512_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha512_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString() : "请输入内容！";
+        methods: {
+          getPasscode(callsign) {
+            if((/^[a-zA-Z0-9-]+$/).test(callsign)){
+              callsign = callsign.toUpperCase();
+              let i = 0;
+              let tmp_code = 29666;
+              while(i < callsign.length){
+                // ^ = XOR Operation
+                tmp_code = tmp_code ^ callsign.charCodeAt(i) * 256;
+                tmp_code = tmp_code ^ callsign.charCodeAt(i+1);
+                i += 2;
+              }
+              tmp_code = tmp_code & 32767;
+              this.passcode = tmp_code;
             }
+            else{
+              this.passcode = "请按获取";
+              alert("错误的呼号！请重试。");
+            }
+          }
         }
       })
-      
+
       let date = new Date();
     </script>
     <footer class="text-center">

@@ -15,6 +15,20 @@
         "path": "commu_a_c"
     },{
         "name": {
+            "zh": "获取APRS IS密码",
+            "en": "Get APRS-IS Passcode"
+        },
+        "description": {
+            "zh": "在线获取APRS IS密码",
+            "en": "Get APRS-IS Passcode Online"
+        },
+        "category": {
+            "zh": "业余无线电",
+            "en": "Amateur Radio"
+        },
+        "path": "aprs_is_passcode"
+    },{
+        "name": {
             "zh": "小环天线计算器",
             "en": "Magnetic loop antenna calculator for round copper construction"
         },

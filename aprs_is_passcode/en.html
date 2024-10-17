@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>计算哈希值</title>
+    <title>Get APRS-IS Passcode</title>
     <!-- Bootstrap -->
     <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -21,17 +21,17 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		      语言
+		      Language
 		    </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="en.html"><b>English</b></a>
+              <a class="dropdown-item" href="zh.html"><b>简体中文</b></a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.ianxia.com">首页</a>
+            <a class="nav-link" href="https://www.ianxia.com">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://blog.ianxia.com">博客</a>
+            <a class="nav-link" href="https://blog.ianxia.com">Blog (In Chinese)</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
@@ -40,7 +40,7 @@
             <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="../zh.html">小工具</a>
+            <a class="nav-link" href="../en.html">Tools</a>
           </li>
         </ul>
       </div>
@@ -50,108 +50,65 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>计算哈希值</h1>
+              <h1>Get APRS-IS Passcode</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section>
-      <div class="container" id="app">
-        <div class="row">
-          <div class="col-md-12">
-            <form role="form">
-              <div>
-                <label><b>请输入内容：</b>&nbsp;</label>
-                <input type="text" class="form-control" v-model="input" placeholder="请输入内容"><br>
+      <div class="container">
+        <div class="row" id="app">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <form class="form-horizontal" role="form">
+              <div class="form-inline">
+                <label><b>Callsign: </b>&nbsp;</label>
+                <input type="text" class="form-control" v-model="callsign" style="width:120px">
+                &nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" v-on:click="getPasscode(callsign)" type="button">Get</button>
               </div>
             </form>
           </div>
-        </div>
-        <div class="row" style="word-break:break-all; word-wrap:break-all;">
-          <div class="col-md-12">
-            <div><b>计算结果：</b></div>
-            <div><b>MD5 32 大写: {{md5_32_u}}</b></div>
-            <div><b>MD5 32 小写: {{md5_32_l}}</b></div>
-            <div><b>MD5 16 大写: {{md5_16_u}}</b></div>
-            <div><b>MD5 16 小写: {{md5_16_l}}</b></div>
-            <div><b>SHA1 大写: {{sha1_u}}</b></div>
-            <div><b>SHA1 小写: {{sha1_l}}</b></div>
-            <div><b>SHA3 大写: {{sha3_u}}</b></div>
-            <div><b>SHA3 小写: {{sha3_l}}</b></div>
-            <div><b>SHA224 大写: {{sha224_u}}</b></div>
-            <div><b>SHA224 小写: {{sha224_l}}</b></div>
-            <div><b>SHA256 大写: {{sha256_u}}</b></div>
-            <div><b>SHA256 小写: {{sha256_l}}</b></div>
-            <div><b>SHA384 大写: {{sha384_u}}</b></div>
-            <div><b>SHA384 小写: {{sha384_l}}</b></div>
-            <div><b>SHA512 大写: {{sha512_u}}</b></div>
-            <div><b>SHA512 小写: {{sha512_l}}</b></div>
+          <div class="col-md-6">
+            <label><b>APRS-IS Passcode Is：</b></label>
+            <p>{{passcode}}</p>
           </div>
         </div>
         <div class="text-center">
           <hr>
-          <h5>使用类库：<a href="https://github.com/brix/crypto-js">Crypto.js</a></h5>
+          <h5>Algorithm source: <a href="https://github.com/PU5KOD/APRS-Passcode-Generator">APRS-Passcode-Generator</a></h5>
         </div>
       </div>
     </section>
     <hr>
-    <script src="https://cdn.gh.ink/js/crypto/crypto-js.js"></script>
     <script>
       new Vue({
         el: '#app',
         data: {
-          input: "请输入内容"
+          callsign: "",
+          passcode: "Please Press Get"
         },
-        computed: {
-            md5_32_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            md5_32_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input) : "请输入内容！";
-            },
-            md5_16_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().toUpperCase().slice(8, 24) : "请输入内容！";
-            },
-            md5_16_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.MD5(this.input).toString().slice(8, 24) : "请输入内容！";
-            },
-            sha1_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha1_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA1(this.input).toString() : "请输入内容！";
-            },
-            sha3_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha3_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA3(this.input).toString() : "请输入内容！";
-            },
-            sha224_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha224_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA224(this.input).toString() : "请输入内容！";
-            },
-            sha256_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha256_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA256(this.input).toString() : "请输入内容！";
-            },
-            sha384_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha384_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA384(this.input).toString() : "请输入内容！";
-            },
-            sha512_u: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString().toUpperCase() : "请输入内容！";
-            },
-            sha512_l: function() {
-                return this.input.toString().length != 0 ? CryptoJS.SHA512(this.input).toString() : "请输入内容！";
+        methods: {
+          getPasscode(callsign) {
+            if((/^[a-zA-Z0-9-]+$/).test(callsign)){
+              callsign = callsign.toUpperCase();
+              let i = 0;
+              let tmp_code = 29666;
+              while(i < callsign.length){
+                // ^ = XOR Operation
+                tmp_code = tmp_code ^ callsign.charCodeAt(i) * 256;
+                tmp_code = tmp_code ^ callsign.charCodeAt(i+1);
+                i += 2;
+              }
+              tmp_code = tmp_code & 32767;
+              this.passcode = tmp_code;
             }
+            else{
+              this.passcode = "Please Press Get";
+              alert("Wrong callsign! Please retry.");
+            }
+          }
         }
       })
       
@@ -161,7 +118,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <p style="color: #516069"><strong>版权所有 © Ian Xia <script>document.write(date.getFullYear().toString());</script> 保留所有权利</strong></p>
+            <p style="color: #516069"><strong>Copyright © Ian Xia <script>document.write(date.getFullYear().toString());</script> All rights reserved</strong></p>
           </div>
         </div>
       </div>
