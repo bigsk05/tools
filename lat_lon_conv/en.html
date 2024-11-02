@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lon / Lat Converter</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.gh.ink/assembly/bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="https://2-cdn.ianxia.com/images/avatar/common.png" type="image/png">
+    <script src="https://cdn.gh.ink/js/vue/2.6.14/vue.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="https://tools.ianxia.com"><b>Ian</b>Tools</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      Language
+		    </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="zh.html"><b>简体中文</b></a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.ianxia.com">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://blog.ianxia.com">Blog (In Chinese)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://demo.ianxia.com">DEMO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://adsb.ianxia.com">ADS-B</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="../en.html">Tools</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section>
+      <div class="jumbotron text-center mt-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>Lon / Lat Converter</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container" id="app">
+        <div class="row">
+          <div class="col-md-12">
+            <form role="form">
+              <div>
+                <label><b>Degree: </b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg" @input="degWatch($event.target.value)" placeholder="Please enter the content"><br>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <form role="form">
+              <div>
+                <label><b>Angle Group (Degree): </b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_d" @input="deg_dWatch($event.target.value)" placeholder="Please enter the content"><br>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-4">
+            <form role="form">
+              <div>
+                <label><b>Angle Group (Minute): </b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_m" @input="deg_mWatch($event.target.value)" placeholder="Please enter the content"><br>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-4">
+            <form role="form">
+              <div>
+                <label><b>Angle Group (Second): </b>&nbsp;</label>
+                <input type="number" class="form-control" step="0.01" :value="deg_s" @input="deg_sWatch($event.target.value)" placeholder="Please enter the content"><br>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <hr>
+    <script>
+      function degWatch(n) {
+        v.deg = parseFloat(n);
+        v.rad_pi = parseFloat(v.deg) / 180;
+        v.rad = parseFloat(v.deg) / 180 * Math.PI;
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.deg_d = Math.floor(parseFloat(v.deg));
+        v.deg_m = Math.floor((parseFloat(v.deg) - parseFloat(v.deg_d)) * 60);
+        v.deg_s = Math.round((parseFloat(v.deg) - parseFloat(v.deg_d) - parseFloat(v.deg_m) / 60) * Math.pow(60, 2));
+      }
+      function radWatch(n) {
+        v.rad = parseFloat(n);
+        v.rad_pi = parseFloat(v.rad) / Math.PI;
+        v.deg = parseFloat(v.rad) / Math.PI * 180;
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.deg_d = Math.floor(parseFloat(v.deg));
+        v.deg_m = Math.floor((parseFloat(v.deg) - parseFloat(v.deg_d)) * 60);
+        v.deg_s = Math.round((parseFloat(v.deg) - parseFloat(v.deg_d) - parseFloat(v.deg_m) / 60) * Math.pow(60, 2));
+      }
+      function rad_piWatch(n) {
+        v.rad_pi = parseFloat(n);
+        v.rad = parseFloat(v.rad_pi) * Math.PI;
+        v.deg = parseFloat(v.rad_pi) * 180;
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.deg_d = Math.floor(parseFloat(v.deg));
+        v.deg_m = Math.floor((parseFloat(v.deg) - parseFloat(v.deg_d)) * 60);
+        v.deg_s = Math.round((parseFloat(v.deg) - parseFloat(v.deg_d) - parseFloat(v.deg_m) / 60) * Math.pow(60, 2));
+      }
+      function deg_dWatch(n) {
+        v.deg_d = parseFloat(n);
+        v.deg = parseFloat(v.deg_d) + parseFloat(v.deg_m) / 60 + parseFloat(v.deg_s) / Math.pow(60, 2);
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.rad = parseFloat(v.deg) / 180 * Math.PI;
+        v.rad_pi = parseFloat(v.deg) / 180;
+      }
+      function deg_mWatch(n) {
+        v.deg_m = parseFloat(n);
+        v.deg = parseFloat(v.deg_d) + parseFloat(v.deg_m) / 60 + parseFloat(v.deg_s) / Math.pow(60, 2);
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.rad = parseFloat(v.deg) / 180 * Math.PI;
+        v.rad_pi = parseFloat(v.deg) / 180;
+      }
+      function deg_sWatch(n) {
+        v.deg_s = parseFloat(n);
+        v.deg = parseFloat(v.deg_d) + parseFloat(v.deg_m) / 60 + parseFloat(v.deg_s) / Math.pow(60, 2);
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.rad = parseFloat(v.deg) / 180 * Math.PI;
+        v.rad_pi = parseFloat(v.deg) / 180;
+      }
+      function deg_moWatch(n) {
+        v.deg_mo = parseFloat(n);
+        v.deg = parseFloat(v.deg_mo) / 60;
+        v.deg_d = Math.floor(parseFloat(v.deg));
+        v.deg_m = Math.floor((parseFloat(v.deg) - parseFloat(v.deg_d)) * 60);
+        v.deg_s = Math.round((parseFloat(v.deg) - parseFloat(v.deg_d) - parseFloat(v.deg_m) / 60) * Math.pow(60, 2));
+        v.deg_so = parseFloat(v.deg) * Math.pow(60, 2);
+        v.rad = parseFloat(v.deg) / 180 * Math.PI;
+        v.rad_pi = parseFloat(v.deg) / 180;
+      }
+      function deg_soWatch(n) {
+        v.deg_so = parseFloat(n);
+        v.deg = parseFloat(v.deg_so) / Math.pow(60, 2);
+        v.deg_d = Math.floor(parseFloat(v.deg));
+        v.deg_m = Math.floor((parseFloat(v.deg) - parseFloat(v.deg_d)) * 60);
+        v.deg_s = Math.round((parseFloat(v.deg) - parseFloat(v.deg_d) - parseFloat(v.deg_m) / 60) * Math.pow(60, 2));
+        v.deg_mo = parseFloat(v.deg) * 60;
+        v.rad = parseFloat(v.deg) / 180 * Math.PI;
+        v.rad_pi = parseFloat(v.deg) / 180;
+      }
+      let v = new Vue({
+        el: '#app',
+        data: {
+          deg: 180,
+          rad_pi: 1,
+          rad: Math.PI,
+          deg_d: 180,
+          deg_m: 0,
+          deg_s: 0,
+          deg_mo: 10800,
+          deg_so: 64800
+        }
+      })
+      
+      let date = new Date();
+    </script>
+    <footer class="text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <p style="color: #516069"><strong>Copyright © Ian Xia <script>document.write(date.getFullYear().toString());</script> All rights reserved</strong></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://cdn.gh.ink/js/jquery/jquery-3.6.0.min.js"></script>
+    <!-- Grey Filter Detector -->
+    <script>
+      $.ajax({
+        type: "GET",
+        url: "https://api.gh.ink/grey_filter",
+        dataType: "json",
+        success: function(data, textStatus){
+          for (let i=0;i<data["content"]["accurate_slot"].length;i++) {
+            // Accurate Slot
+            if (Date.now()/1000 >= data["content"]["accurate_slot"][i][0] && Date.now()/1000 <= data["content"]["accurate_slot"][i][1]) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+          for (let i=0;i<data["content"]["day_slot"].length;i++) {
+            // Day Slot
+            let begin = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["content"]["day_slot"][i][0][0].toString() + "-" + 
+              data["content"]["day_slot"][i][0][1].toString() + " " + 
+              data["content"]["day_slot"][i][0][2].toString() + ":" +
+              data["content"]["day_slot"][i][0][3].toString() + ":" +
+              data["content"]["day_slot"][i][0][4].toString()
+            )
+            let end = new Date(
+              date.getFullYear().toString() + "-" + 
+              data["content"]["day_slot"][i][1][0].toString() + "-" + 
+              data["content"]["day_slot"][i][1][1].toString() + " " + 
+              data["content"]["day_slot"][i][1][2].toString() + ":" +
+              data["content"]["day_slot"][i][1][3].toString() + ":" +
+              data["content"]["day_slot"][i][1][4].toString()
+            )
+            if (Date.now() >= begin.getTime() && Date.now() <= end.getTime()) {
+              $("html").css({
+                '-webkit-filter': 'grayscale(100%)',
+                '-moz-filter': 'grayscale(100%)',
+                '-ms-filter': 'grayscale(100%)',
+                '-o-filter': 'grayscale(100%)',
+                'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+                '_filter': 'none'
+              });
+              break;
+            }
+          }
+        }
+      });
+    </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.gh.ink/js/popper/1.16.1/popper.min.js"></script>
+    <script src="https://cdn.gh.ink/assembly/bootstrap/4.6.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

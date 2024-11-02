@@ -5,7 +5,7 @@
             "en": "Calculate communication azimuth and great-circle distance"
         },
         "description": {
-            "zh": "在线实时计算通信方位角和大圆距",
+            "zh": "在线计算通信方位角和大圆距",
             "en": "Calculate communication azimuth and great-circle distance online"
         },
         "category": {
@@ -48,7 +48,7 @@
         },
         "description": {
             "zh": "在线同步快速计算各种哈希值",
-            "en": "Online synchronous fast calculation of various hash values"
+            "en": "Online calculation of various hash values"
         },
         "category": {
             "zh": "计算机科学",
@@ -61,8 +61,8 @@
             "en": "Generate QR code"
         },
         "description": {
-            "zh": "在线同步快速生成二维码",
-            "en": "Online fast real-time generation of QR code"
+            "zh": "在线生成二维码",
+            "en": "Online generation of QR code"
         },
         "category": {
             "zh": "计算机科学",
@@ -75,8 +75,8 @@
             "en": "Encode / Decode URI"
         },
         "description": {
-            "zh": "在线同步快速编解码您的URI",
-            "en": "Online fast real-time encode or decode your URI"
+            "zh": "在线编解码您的URI",
+            "en": "Online encode or decode your URI"
         },
         "category": {
             "zh": "计算机科学",
@@ -89,8 +89,8 @@
             "en": "Encode / Decode Base64"
         },
         "description": {
-            "zh": "在线同步快速编解码您的Base64",
-            "en": "Online fast real-time encode or decode your Base64"
+            "zh": "在线编解码您的Base64",
+            "en": "Online encode or decode your Base64"
         },
         "category": {
             "zh": "计算机科学",
@@ -103,14 +103,14 @@
             "en": "Radian / Degree Converter"
         },
         "description": {
-            "zh": "在线同步快速换算角度与弧度",
-            "en": "Online synchronous fast conversion of degree and radian"
+            "zh": "在线换算角度与弧度",
+            "en": "Online conversion of degree and radian"
         },
         "category": {
             "zh": "数学",
             "en": "Mathematics"
         },
-        "path": "d_r_trans"
+        "path": "d_r_conv"
     },{
         "name": {
             "zh": "椭球模型地球上点之间的距离",
@@ -125,5 +125,19 @@
             "en": "Geography"
         },
         "path": "vincenty"
+    },{
+        "name": {
+            "zh": "经纬度换算器",
+            "en": "Lon / Lat Converter"
+        },
+        "description": {
+            "zh": "在线计算椭球模型地球上点之间的距离",
+            "en": "Online calculation of distance between points on the earth of ellipsoidal model"
+        },
+        "category": {
+            "zh": "地理学",
+            "en": "Geography"
+        },
+        "path": "lat_lon_conv"
     }
 ]
